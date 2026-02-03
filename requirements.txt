@@ -3,4 +3,5 @@ numpy
 pandas
 plotly
 Pillow
+openpyxl
 altair<5
