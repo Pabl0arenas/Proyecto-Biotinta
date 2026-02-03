@@ -1,7 +1,7 @@
 import streamlit as st
 from PIL import Image #Cargar Imágenes 
 logo=Image.open("UPB logo.png")   
-st.set_page_config(page_title="Proyecto Biotintas", page_icon=logo,layout="wide", initial_sidebar_state="collapsed")
+st.set_page_config(page_title="Proyecto Biotintassssss", page_icon=logo,layout="wide", initial_sidebar_state="collapsed")
 st.markdown("""
 <style>
 h1 {
