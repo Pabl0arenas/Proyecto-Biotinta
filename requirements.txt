@@ -1,5 +1,6 @@
+streamlit
 numpy
 pandas
-Pillow
 plotly
-streamlit
+Pillow
+altair<5
