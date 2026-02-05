@@ -31,7 +31,7 @@ def reo():
     # Filtrar por muestra
     muestras = df['Muestra'].dropna().unique().tolist()
     muestra_seleccionada = st.sidebar.multiselect(
-        "Selecciona Biontinta(s):",
+        "Seleccionar Biontinta(s):",
         muestras,
         default=muestras
     )
