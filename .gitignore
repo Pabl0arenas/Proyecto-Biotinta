@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+
+# Entornos virtuales
+.venv/
+venv/
+
+# Excel (archivos temporales)
+~$*.xlsx
+
+# Sistema
+.DS_Store
+
+

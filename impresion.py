@@ -28,13 +28,15 @@ def impresion():
     )
 
     # Aplicar filtro por Biotinta
-    df_filtrado = df[df["Biotinta"].isin(filtro_biotintas)]
+    df_filtrado = df[df["Biotinta"].isin(filtro_biotintas)].copy()
 
     # === Selectbox de Geometría (FUERA del sidebar) ===
     geometria_options = df_filtrado["Geometría"].dropna().unique().tolist()
 
     if not geometria_options:
-        st.warning("No hay valores en la columna 'Geometría' para las biotintas seleccionadas.")
+        st.warning(
+            "No hay valores en la columna 'Geometría' para las biotintas seleccionadas."
+        )
         return
 
     seleccion_geometria = st.selectbox(
@@ -57,7 +59,7 @@ def impresion():
         st.warning("No se encontró la columna 'Fecha' en los datos.")
         return
 
-    # === Gráficas ===
+    # === Gráficas (FACETAS POR BIOTINTA) ===
     plot_cols = [
         ("Punta (G)", "Punta (G)"),
         ("Presión (kPa)", "Presión (kPa)"),
@@ -70,24 +72,27 @@ def impresion():
                 df_filtrado,
                 x="Fecha",
                 y=col_name,
-                color="Biotinta",
+                facet_col="Biotinta",
+                facet_col_wrap=2,      # ajusta si tienes muchas biotintas
                 markers=True,
                 labels={
-                    "Biotinta": "Biotinta",
                     col_name: display_name,
                     "Fecha": "Fecha"
                 },
-                title=f"{display_name} vs Fecha"
+                title=f"{display_name} vs Fecha por Biotinta"
             )
 
+            # Ajustes clave para comparación correcta
             fig.update_layout(
                 template="plotly_white",
-                yaxis_title=display_name,
                 xaxis_title="Fecha",
-                legend_title_text="Biotinta"
+                yaxis_title=display_name
             )
 
-            st.plotly_chart(fig, width='stretch')
+            # Todas las facetas comparten el mismo eje Y
+            fig.update_yaxes(matches="y")
+
+            st.plotly_chart(fig, use_container_width=True)
         else:
             st.warning(f"No se encontró la columna '{col_name}'")
 
