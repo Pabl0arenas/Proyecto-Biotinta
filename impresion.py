@@ -79,7 +79,7 @@ def impresion():
                     col_name: display_name,
                     "Fecha": "Fecha"
                 },
-                title=f"{display_name} vs Fecha por Biotinta"
+                title=f"{display_name} vs Fecha"
             )
 
             # Ajustes clave para comparación correcta
