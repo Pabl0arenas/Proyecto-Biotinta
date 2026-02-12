@@ -15,8 +15,19 @@ def impresion():
     df = load_data()
 
     # === Título y nota ===
-    st.title("Parámetros de impresión")
+
     st.info("📌 **Nota:** Se empleó NCV o NCB al 1 %")
+    st.markdown("---")
+    with st.expander("ℹ️ Información sobre las Variables"):
+        st.write("""
+        - **Punta (G)**: Punta empleada para el proceso de impresión.
+        - **Presión (kPa)**: Presión de trabajo.
+        - **Velocidad (mm/s)**: Velocidad de la punta durante el proceso de impresión.
+    
+        """)
+    st.markdown("---")
+
+
 
     # === Sidebar: filtro de Biotinta ===
     biotintas = df["Biotinta"].dropna().unique()
@@ -81,7 +92,8 @@ def impresion():
                 },
                 title=f"{display_name} vs Fecha"
             )
-
+            # Quitar "Biotinta=" de las facetas
+            fig.for_each_annotation(lambda a: a.update(text=a.text.split("=")[-1]))
             # Ajustes clave para comparación correcta
             fig.update_layout(
                 template="plotly_white",
@@ -92,7 +104,7 @@ def impresion():
             # Todas las facetas comparten el mismo eje Y
             fig.update_yaxes(matches="y")
 
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width="Stretch")
         else:
             st.warning(f"No se encontró la columna '{col_name}'")
 
