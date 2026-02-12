@@ -104,7 +104,7 @@ def impresion():
             # Todas las facetas comparten el mismo eje Y
             fig.update_yaxes(matches="y")
 
-            st.plotly_chart(fig, width="Stretch")
+            st.plotly_chart(fig, width="stretch")
         else:
             st.warning(f"No se encontró la columna '{col_name}'")
 
