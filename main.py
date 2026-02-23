@@ -30,7 +30,7 @@ with col2:
 
 with st.sidebar:
     with st.container(border=True):
-        st.markdown("📅 **Última actualización:** 2-02-2026")
+        st.markdown("📅 **Última actualización:** 23-02-2026")
 
 #Creamos la sección de selección en el sidebar para ver diferentes resultados
 
