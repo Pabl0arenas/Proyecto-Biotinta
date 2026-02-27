@@ -133,71 +133,54 @@ def reo():
 
     st.plotly_chart(fig_heatmap, width="stretch")
 
-    # === 7. Distribución de desviaciones ===
+   
+
+    # === 8. Gráfico Radial Normalizado ===
     st.markdown("---")
-    st.subheader("📊 Análisis de Desviaciones")
-
-    variable_desv = st.selectbox(
-        "Selecciona variable para análisis de desviaciones:",
-        variables_disponibles,
-        key="desv_select"
-    )
-
-    desv_col = variables_config[variable_desv]['desv']
-
-    # Gráfico de desviaciones por muestra
-    fig_desv = go.Figure()
-
-    fig_desv.add_trace(go.Bar(
-        name='Desviación',
-        x=df_filtrado['Muestra'],
-        y=df_filtrado[desv_col],
-        marker=dict(
-            color=df_filtrado[desv_col],
-            colorscale='Reds',
-            showscale=True,
-            colorbar=dict(title="Desviación"),
-            line=dict(width=1, color='white')
-        ),
-        hovertemplate="<b>%{x}</b><br>Desviación: %{y:.4f}<extra></extra>"
-    ))
-
-    fig_desv.update_layout(
-        title=f"Desviaciones para {variable_desv}",
-        xaxis_title="Muestra",
-        yaxis_title="Desviación",
-        template='plotly_white',
-        height=400,
-        showlegend=False
-    )
-
-    st.plotly_chart(fig_desv, width="stretch")
-
-    # === 8. Comparativa de desviaciones ===
-    st.markdown("---")
-    st.subheader("⚖️ Comparativa de Todas las Desviaciones")
-
-    fig_desv_all = go.Figure()
-
-    for var in variables_disponibles:
-        desv_col = variables_config[var]['desv']
-        fig_desv_all.add_trace(go.Bar(
-            name=var,
-            x=df_filtrado['Muestra'],
-            y=df_filtrado[desv_col],
-            hovertemplate="<b>%{x}</b><br>Desviación: %{y:.4f}<extra></extra>"
+    st.subheader("🕸 Comparación Radial Normalizada (Min-Max Scaling)")
+    
+    # Calcular promedios por Muestra
+    df_avg = df_filtrado.groupby("Muestra")[variables_disponibles].mean().reset_index()
+    
+    # Normalizar con Min-Max Scaling
+    df_norm = df_avg.copy()
+    
+    for col in variables_disponibles:
+        min_val = df_norm[col].min()
+        max_val = df_norm[col].max()
+        
+        if max_val - min_val != 0:
+            df_norm[col] = (df_norm[col] - min_val) / (max_val - min_val)
+        else:
+            df_norm[col] = 0
+    
+    # Crear etiquetas sin unidades
+    radar_labels = [var.split('(')[0].strip() for var in variables_disponibles]
+    
+    # Crear figura radar
+    fig_radar = go.Figure()
+    
+    for i in range(len(df_norm)):
+        fig_radar.add_trace(go.Scatterpolar(
+            r=df_norm.loc[i, variables_disponibles].values,
+            theta=radar_labels,
+            fill='toself',
+            name=df_norm.loc[i, "Muestra"]
         ))
-
-    fig_desv_all.update_layout(
-        title="Comparativa de Desviaciones por Variable",
-        xaxis_title="Muestra",
-        yaxis_title="Desviación",
-        template='plotly_white',
-        height=450,
-        barmode='group'
+    
+    fig_radar.update_layout(
+        polar=dict(
+            radialaxis=dict(
+                visible=True,
+                range=[0, 1]
+            )
+        ),
+        showlegend=True,
+        title="Gráfico Radial Normalizado",
+        height=600
     )
-
-    st.plotly_chart(fig_desv_all, width="stretch")
+    
+    st.plotly_chart(fig_radar, use_container_width=True)
 
     # === 9. Tabla de datos detallada ===
     
