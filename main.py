@@ -30,7 +30,7 @@ with col2:
 
 with st.sidebar:
     with st.container(border=True):
-        st.markdown("📅 **Última actualización:** 23-02-2026")
+        st.markdown("📅 **Última actualización:** 12-03-2026")
 
 #Creamos la sección de selección en el sidebar para ver diferentes resultados
 
@@ -62,15 +62,19 @@ if Choice == "Inicio":
     """, unsafe_allow_html=True)
     
 elif Choice == "Parámetros de Forma":
-   st.subheader("🔬 Parámetros de Forma")
+   st.header("🔬 Parámetros de Forma")
    forma()
 if Choice == "Ensayos Reológicos":
-   st.subheader("💧 Ensayos Reológicos")
+   st.header("💧 Ensayos Reológicos")
    reo()
 if Choice == "Ensayos Biológicos":
-   st.subheader("🧫 Ensayos Biológicos")
+   st.header("🧫 Ensayos Biológicos")
    bio()
 if Choice == "Parámetros de Impresión":
    from impresion import impresion
-   st.subheader("🖨️ Parámetros de Impresión")
+   st.header("🖨️ Parámetros de Impresión")
    impresion()
+if Choice == "Ensayos Mecánicos":
+   from mecanicas import mecanicas
+   st.header("🛠️ Ensayos Mecánicos")
+   mecanicas()

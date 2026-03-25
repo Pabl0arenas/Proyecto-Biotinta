@@ -113,7 +113,7 @@ def impresion():
     # === Gráficos de medias con desviación estándar ===
     # Se genera un gráfico independiente para cada variable (Punta, Presión, Velocidad)
     st.markdown("---")
-    st.subheader("📊 Medias ± Desviación Estándar por Biotinta")
+    st.subheader("📊 Gráfico de medias")
     
     stats_cols = [col for col, _ in plot_cols if col in df_filtrado.columns]
     if stats_cols:
@@ -133,7 +133,7 @@ def impresion():
             df_v = stats[["Biotinta", mean_col, std_col]].rename(
                 columns={mean_col: "mean", std_col: "std"}
             )
-            title = f"Media ± desviación estándar de {display_map.get(var, var)} por Biotinta"
+            title = f"{display_map.get(var, var)}"
             fig_stats = px.bar(
                 df_v,
                 x="Biotinta",

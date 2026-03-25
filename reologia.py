@@ -180,7 +180,7 @@ def reo():
         height=600
     )
     
-    st.plotly_chart(fig_radar, use_container_width=True)
+    st.plotly_chart(fig_radar, use_container_width="stretch")
 
     # === 9. Tabla de datos detallada ===
     
